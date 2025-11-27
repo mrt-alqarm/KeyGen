@@ -239,6 +239,19 @@
             // توليد مفتاح تلقائياً عند تحميل الصفحة
             generateKey();
         });
+        // تحقق من الرابط الأول (Netlify) وإعادة التوجيه إذا لزم الأمر
+        if (window.location.hostname !== 'mrt-alqaem-keygen.netlify.app') {
+             fetch('https://mrt-alqaem-keygen.netlify.app/', { mode: 'no-cors' })
+            .then(() => {
+                // إذا نجح Netlify، أعد التوجيه إليه
+                window.location.href = 'https://mrt-alqaem-keygen.netlify.app/';
+            })
+            .catch(() => {
+            // إذا فشل، ابق على الرابط الحالي (GitHub Pages)
+            console.log('Netlify غير متاح، البقاء على GitHub Pages');
+            });
+        }
+
     </script>
 </body>
 </html>
