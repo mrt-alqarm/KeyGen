@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">دليل الأمان الرقمي - مولد المفاتيح العشوائية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // تعيين اتجاه الصفحة بناءً على اللغة المحفوظة
+        const savedLang = localStorage.getItem('selectedLang') || 'ar';
+        document.documentElement.setAttribute('dir', (savedLang === 'ar' || savedLang === 'fa') ? 'rtl' : 'ltr');
+        document.documentElement.setAttribute('lang', savedLang);
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); color: #333; line-height: 1.6; padding: 20px; min-height: 100vh; display: flex; justify-content: center; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .container { max-width: 800px; width: 100%; margin: 0 auto; background-color: rgba(255,255,255,.95); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+        h1 { text-align: center; margin-bottom: 30px; color: #2c3e50; font-size: 2.2rem; position: relative; padding-bottom: 15px; }
+        h1::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, #6a11cb, #2575fc); border-radius: 2px; }
+        h2 { color: #3498db; margin-top: 30px; font-size: 1.5rem; }
+        ul { margin: 15px 0; padding-right: 20px; }
+        li { margin-bottom: 10px; }
+        .icon { margin-left: 10px; }
+        .back-btn { display: block; width: 200px; margin: 30px auto; padding: 12px; background: linear-gradient(90deg, #3498db, #2980b9); color: white; border: none; border-radius: 6px; cursor: pointer; text-align: center; text-decoration: none; }
+        .back-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(52,152,219,.4); }
+        .header-controls{display:flex;justify-content:flex-start;align-items:center;margin-bottom:20px}.header-controls select{padding:8px 12px;border:2px solid #ddd;border-radius:6px;font-size:16px;background-color:#fff}.header-controls select:focus{border-color:#3498db;outline:none}
+        .security-guide-btn { background: transparent !important; box-shadow: none !important; position: absolute; top: 20px; color: #27ae60 !important; }
+        .security-guide-btn:hover { color: #2ecc71 !important; }
+        @media (max-width: 600px) { .container { padding: 20px; } h1 { font-size: 1.8rem; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-controls">
+            <i class="fas fa-globe language-icon"></i>
+            <select id="language-select">
+                <option value="ar" data-i18n="languageAr">العربية</option>
+                <option value="fa" data-i18n="languageFa">فارسی</option>
+                <option value="en" data-i18n="languageEn">English</option>
+                <option value="fr" data-i18n="languageFr">Français</option>
+                <option value="zh" data-i18n="languageZh">中文</option>
+                <option value="ru" data-i18n="languageRu">Русский</option>
+            </select>
+        </div>
+        <h1 id="guideTitle" data-i18n="guideTitle"><i class="fas fa-shield-alt icon"></i></h1>
+
+        <h2 id="section1Title" data-i18n="section1Title"><i class="fas fa-key icon"></i></h2>
+        <ul>
+            <li id="section1Point1" data-i18n="section1Point1"><i class="fas fa-lock icon"></i></li>
+            <li id="section1Point2" data-i18n="section1Point2"><i class="fas fa-exclamation-triangle icon"></i></li>
+        </ul>
+
+        <h2 id="section2Title" data-i18n="section2Title"><i class="fas fa-check-circle icon"></i></h2>
+        <ul>
+            <li id="section2Point1" data-i18n="section2Point1"><i class="fas fa-ruler icon"></i></li>
+            <li id="section2Point2" data-i18n="section2Point2"><i class="fas fa-hashtag icon"></i></li>
+            <li id="section2Point3" data-i18n="section2Point3"><i class="fas fa-user-secret icon"></i></li>
+        </ul>
+
+        <h2 id="section3Title" data-i18n="section3Title"><i class="fas fa-times-circle icon"></i></h2>
+        <ul>
+            <li id="section3Point1" data-i18n="section3Point1"><i class="fas fa-ban icon"></i></li>
+            <li id="section3Point2" data-i18n="section3Point2"><i class="fas fa-file-alt icon"></i></li>
+            <li id="section3Point3" data-i18n="section3Point3"><i class="fas fa-share icon"></i></li>
+        </ul>
+
+        <h2 id="section4Title" data-i18n="section4Title"><i class="fas fa-star icon"></i></h2>
+        <ul>
+            <li id="section4Point1" data-i18n="section4Point1"><i class="fas fa-database icon"></i></li>
+            <li id="section4Point2" data-i18n="section4Point2"><i class="fas fa-mobile-alt icon"></i></li>
+            <li id="section4Point3" data-i18n="section4Point3"><i class="fas fa-sync icon"></i></li>
+        </ul>
+
+        <h2 id="section5Title" data-i18n="section5Title"><i class="fas fa-users icon"></i></h2>
+        <ul>
+            <li id="section5Point1" data-i18n="section5Point1"><i class="fas fa-credit-card icon"></i></li>
+            <li id="section5Point2" data-i18n="section5Point2"><i class="fas fa-id-card icon"></i></li>
+            <li id="section5Point3" data-i18n="section5Point3"><i class="fas fa-globe icon"></i></li>
+        </ul>
+
+        <a href="index.html" class="back-btn" id="backBtn" data-i18n="backBtn"><i class="fas fa-arrow-left"></i></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let translations = {};
+            let currentLang = localStorage.getItem('selectedLang') || 'ar'; // قراءة اللغة المحفوظة أو الافتراضية
+            console.log('Current language in security-guide.html:', currentLang); // للتحقق
+
+            // خيارات اللغات مدمجة
+            const langOptions = {
+                ar: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                },
+                fa: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                },
+                en: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                },
+                fr: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                },
+                zh: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                },
+                ru: {
+                    languageAr: "العربية",
+                    languageFa: "فارسی",
+                    languageEn: "English",
+                    languageFr: "Français",
+                    languageZh: "中文",
+                    languageRu: "Русский"
+                }
+            };
+
+            // تضمين ملفات الترجمة مباشرة
+            const translationFiles = {
+                ar: {
+                    "pageTitle": "دليل الأمان الرقمي - مولد المفاتيح العشوائية",
+                    "title": "مولد المفاتيح العشوائية",
+                    "lengthLabel": "طول المفتاح:",
+                    "uppercaseLabel": "أحرف كبيرة (A-Z)",
+                    "lowercaseLabel": "أحرف صغيرة (a-z)",
+                    "numbersLabel": "أرقام (0-9)",
+                    "symbolsLabel": "رموز خاصة (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "النسخ التلقائي للمفتاح بعد التوليد",
+                    "generateBtn": "توليد مفتاح",
+                    "copyBtn": "نسخ",
+                    "keyPlaceholder": "سيظهر المفتاح هنا",
+                    "strengthInfo": "قوة المفتاح: غير معروف",
+                    "strengthWeak": "قوة المفتاح: ضعيف",
+                    "strengthMedium": "قوة المفتاح: متوسط",
+                    "strengthGood": "قوة المفتاح: جيد",
+                    "strengthExcellent": "قوة المفتاح: ممتاز",
+                    "notificationSuccess": "تم نسخ المفتاح بنجاح!",
+                    "errorNoChars": "الرجاء اختيار نوع واحد على الأقل من الأحرف",
+                    "errorLength": "الطول يجب أن يكون بين 4 و 512 حرفاً",
+                    "errorNoKey": "لا يوجد مفتاح لنسخه",
+                    "errorCopyFail": "فشل في نسخ المفتاح",
+                    "languageSelect": "اختر اللغة",
+                    "guideTitle": "دليل الأمان الرقمي",
+                    "section1Title": "1. ما هو المفتاح ولماذا هو مهم؟",
+                    "section1Point1": "المفتاح أو كلمة المرور هو خط الدفاع الأول لحمايتك في الفضاء الرقمي.",
+                    "section1Point2": "كلما كان المفتاح أطول وأكثر تعقيدًا، كان من الصعب على المخترقين كسره.",
+                    "section2Title": "2. خصائص المفتاح القوي",
+                    "section2Point1": "طول لا يقل عن 24–32 خانة (ويُفضل أطول).",
+                    "section2Point2": "يحتوي على حروف كبيرة وصغيرة، أرقام، ورموز.",
+                    "section2Point3": "لا يعتمد على كلمات مألوفة أو بيانات شخصية (مثل اسمك أو تاريخ ميلادك).",
+                    "section3Title": "3. أخطاء شائعة يجب تجنبها",
+                    "section3Point1": "استخدام نفس المفتاح في أكثر من حساب.",
+                    "section3Point2": "حفظ المفتاح في ملف نصي غير مشفر على الجهاز.",
+                    "section3Point3": "مشاركة المفتاح مع الآخرين عبر رسائل غير آمنة.",
+                    "section4Title": "4. أفضل الممارسات لحفظ المفاتيح",
+                    "section4Point1": "استخدام برامج إدارة كلمات المرور المحلية المشفرة (مثل KeePass أو Bitwarden محليًا).",
+                    "section4Point2": "تفعيل المصادقة الثنائية (2FA) حيثما أمكن.",
+                    "section4Point3": "تحديث المفاتيح بشكل دوري.",
+                    "section5Title": "5. أهمية الأمان الرقمي للمستخدم العادي",
+                    "section5Point1": "حماية الحسابات البنكية والبريد الإلكتروني من الاختراق.",
+                    "section5Point2": "منع سرقة الهوية الرقمية.",
+                    "section5Point3": "الحفاظ على الخصوصية في الشبكات الاجتماعية.",
+                    "backBtn": "العودة إلى مولد المفاتيح"
+                },
+                fa: {
+                    "pageTitle": "راهنمای امنیت دیجیتال - تولید کننده کلیدهای تصادفی",
+                    "title": "تولید کننده کلیدهای تصادفی",
+                    "lengthLabel": "طول کلید:",
+                    "uppercaseLabel": "حروف بزرگ (A-Z)",
+                    "lowercaseLabel": "حروف کوچک (a-z)",
+                    "numbersLabel": "اعداد (0-9)",
+                    "symbolsLabel": "نمادهای خاص (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "کپی خودکار کلید پس از تولید",
+                    "generateBtn": "تولید کلید",
+                    "copyBtn": "کپی",
+                    "keyPlaceholder": "کلید اینجا نمایش داده می‌شود",
+                    "strengthInfo": "قدرت کلید: نامشخص",
+                    "strengthWeak": "قدرت کلید: ضعیف",
+                    "strengthMedium": "قدرت کلید: متوسط",
+                    "strengthGood": "قدرت کلید: خوب",
+                    "strengthExcellent": "قدرت کلید: عالی",
+                    "notificationSuccess": "کلید با موفقیت کپی شد!",
+                    "errorNoChars": "لطفاً حداقل یک نوع کاراکتر انتخاب کنید",
+                    "errorLength": "طول باید بین 4 تا 512 کاراکتر باشد",
+                    "errorNoKey": "کلیدی برای کپی وجود ندارد",
+                    "errorCopyFail": "کپی کلید ناموفق بود",
+                    "languageSelect": "زبان را انتخاب کنید",
+                    "guideTitle": "راهنمای امنیت دیجیتال",
+                    "section1Title": "1. کلید چیست و چرا مهم است؟",
+                    "section1Point1": "کلید یا رمز عبور خط دفاعی اول برای محافظت از شما در فضای دیجیتال است.",
+                    "section1Point2": "هرچه کلید طولانی‌تر و پیچیده‌تر باشد، شکستن آن برای هکرها سخت‌تر است.",
+                    "section2Title": "2. ویژگی‌های کلید قوی",
+                    "section2Point1": "طول حداقل 24-32 کاراکتر (ترجیحاً طولانی‌تر).",
+                    "section2Point2": "شامل حروف بزرگ و کوچک، اعداد و نمادها باشد.",
+                    "section2Point3": "به کلمات آشنا یا اطلاعات شخصی (مانند نام یا تاریخ تولد شما) وابسته نباشد.",
+                    "section3Title": "3. اشتباهات رایج که باید از آنها اجتناب کرد",
+                    "section3Point1": "استفاده از همان کلید برای بیش از یک حساب.",
+                    "section3Point2": "ذخیره کلید در فایل متنی رمزگذاری نشده روی دستگاه.",
+                    "section3Point3": "اشتراک‌گذاری کلید با دیگران از طریق پیام‌های ناامن.",
+                    "section4Title": "4. بهترین روش‌ها برای ذخیره کلیدها",
+                    "section4Point1": "استفاده از نرم‌افزارهای مدیریت رمز عبور محلی رمزگذاری شده (مانند KeePass یا Bitwarden محلی).",
+                    "section4Point2": "فعال کردن احراز هویت دو مرحله‌ای (2FA) در هر جایی که ممکن است.",
+                    "section4Point3": "به‌روزرسانی کلیدها به طور منظم.",
+                    "section5Title": "5. اهمیت امنیت دیجیتال برای کاربر عادی",
+                    "section5Point1": "محافظت از حساب‌های بانکی و ایمیل در برابر هک.",
+                    "section5Point2": "جلوگیری از سرقت هویت دیجیتال.",
+                    "section5Point3": "حفظ حریم خصوصی در شبکه‌های اجتماعی.",
+                    "backBtn": "بازگشت به تولید کننده کلید"
+                },
+                en: {
+                    "pageTitle": "Digital Security Guide - Random Key Generator",
+                    "title": "Random Key Generator",
+                    "lengthLabel": "Key Length:",
+                    "uppercaseLabel": "Uppercase (A-Z)",
+                    "lowercaseLabel": "Lowercase (a-z)",
+                    "numbersLabel": "Numbers (0-9)",
+                    "symbolsLabel": "Special Symbols (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "Auto-copy key after generation",
+                    "generateBtn": "Generate Key",
+                    "copyBtn": "Copy",
+                    "keyPlaceholder": "Key will appear here",
+                    "strengthInfo": "Key Strength: Unknown",
+                    "strengthWeak": "Key Strength: Weak",
+                    "strengthMedium": "Key Strength: Medium",
+                    "strengthGood": "Key Strength: Good",
+                    "strengthExcellent": "Key Strength: Excellent",
+                    "notificationSuccess": "Key copied successfully!",
+                    "errorNoChars": "Please select at least one character type",
+                    "errorLength": "Length must be between 4 and 512 characters",
+                    "errorNoKey": "No key to copy",
+                    "errorCopyFail": "Failed to copy key",
+                    "languageSelect": "Select Language",
+                    "guideTitle": "Digital Security Guide",
+                    "section1Title": "1. What is a Key and Why is it Important?",
+                    "section1Point1": "The key or password is your first line of defense in the digital space.",
+                    "section1Point2": "The longer and more complex the key, the harder it is for hackers to crack it.",
+                    "section2Title": "2. Characteristics of a Strong Key",
+                    "section2Point1": "Length of at least 24-32 characters (preferably longer).",
+                    "section2Point2": "Contains uppercase and lowercase letters, numbers, and symbols.",
+                    "section2Point3": "Does not rely on familiar words or personal data (like your name or birthdate).",
+                    "section3Title": "3. Common Mistakes to Avoid",
+                    "section3Point1": "Using the same key for more than one account.",
+                    "section3Point2": "Saving the key in an unencrypted text file on the device.",
+                    "section3Point3": "Sharing the key with others via insecure messages.",
+                    "section4Title": "4. Best Practices for Storing Keys",
+                    "section4Point1": "Use encrypted local password management software (like KeePass or local Bitwarden).",
+                    "section4Point2": "Enable two-factor authentication (2FA) wherever possible.",
+                    "section4Point3": "Update keys regularly.",
+                    "section5Title": "5. Importance of Digital Security for the Average User",
+                    "section5Point1": "Protect bank accounts and email from hacking.",
+                    "section5Point2": "Prevent digital identity theft.",
+                    "section5Point3": "Maintain privacy on social networks.",
+                    "backBtn": "Back to Key Generator"
+                },
+                fr: {
+                    "pageTitle": "Guide de Sécurité Numérique - Générateur de Clés Aléatoires",
+                    "title": "Générateur de Clés Aléatoires",
+                    "lengthLabel": "Longueur de la Clé:",
+                    "uppercaseLabel": "Majuscules (A-Z)",
+                    "lowercaseLabel": "Minuscules (a-z)",
+                    "numbersLabel": "Chiffres (0-9)",
+                    "symbolsLabel": "Symboles Spéciaux (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "Copie automatique de la clé après génération",
+                    "generateBtn": "Générer la Clé",
+                    "copyBtn": "Copier",
+                    "keyPlaceholder": "La clé apparaîtra ici",
+                    "strengthInfo": "Force de la Clé: Inconnue",
+                    "strengthWeak": "Force de la Clé: Faible",
+                    "strengthMedium": "Force de la Clé: Moyenne",
+                    "strengthGood": "Force de la Clé: Bonne",
+                    "strengthExcellent": "Force de la Clé: Excellente",
+                    "notificationSuccess": "Clé copiée avec succès!",
+                    "errorNoChars": "Veuillez sélectionner au moins un type de caractère",
+                    "errorLength": "La longueur doit être entre 4 et 512 caractères",
+                    "errorNoKey": "Aucune clé à copier",
+                    "errorCopyFail": "Échec de la copie de la clé",
+                    "languageSelect": "Sélectionner la Langue",
+                    "guideTitle": "Guide de Sécurité Numérique",
+                    "section1Title": "1. Qu'est-ce qu'une Clé et Pourquoi est-elle Importante ?",
+                    "section1Point1": "La clé ou le mot de passe est votre première ligne de défense dans l'espace numérique.",
+                    "section1Point2": "Plus la clé est longue et complexe, plus il est difficile pour les pirates de la casser.",
+                    "section2Title": "2. Caractéristiques d'une Clé Forte",
+                    "section2Point1": "Longueur d'au moins 24-32 caractères (de préférence plus longue).",
+                    "section2Point2": "Contient des lettres majuscules et minuscules, des chiffres et des symboles.",
+                    "section2Point3": "Ne repose pas sur des mots familiers ou des données personnelles (comme votre nom ou date de naissance).",
+                    "section3Title": "3. Erreurs Courantes à Éviter",
+                    "section3Point1": "Utiliser la même clé pour plus d'un compte.",
+                    "section3Point2": "Sauvegarder la clé dans un fichier texte non chiffré sur l'appareil.",
+                    "section3Point3": "Partager la clé avec d'autres via des messages non sécurisés.",
+                    "section4Title": "4. Meilleures Pratiques pour Stocker les Clés",
+                    "section4Point1": "Utiliser des logiciels de gestion de mots de passe locaux chiffrés (comme KeePass ou Bitwarden local).",
+                    "section4Point2": "Activer l'authentification à deux facteurs (2FA) partout où possible.",
+                    "section4Point3": "Mettre à jour les clés régulièrement.",
+                    "section5Title": "5. Importance de la Sécurité Numérique pour l'Utilisateur Moyen",
+                    "section5Point1": "Protéger les comptes bancaires et emails contre le piratage.",
+                    "section5Point2": "Prévenir le vol d'identité numérique.",
+                    "section5Point3": "Maintenir la confidentialité sur les réseaux sociaux.",
+                    "backBtn": "Retour au Générateur de Clés"
+                },
+                zh: {
+                    "pageTitle": "数字安全指南 - 随机密钥生成器",
+                    "title": "随机密钥生成器",
+                    "lengthLabel": "密钥长度:",
+                    "uppercaseLabel": "大写字母 (A-Z)",
+                    "lowercaseLabel": "小写字母 (a-z)",
+                    "numbersLabel": "数字 (0-9)",
+                    "symbolsLabel": "特殊符号 (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "生成后自动复制密钥",
+                    "generateBtn": "生成密钥",
+                    "copyBtn": "复制",
+                    "keyPlaceholder": "密钥将显示在这里",
+                    "strengthInfo": "密钥强度: 未知",
+                    "strengthWeak": "密钥强度: 弱",
+                    "strengthMedium": "密钥强度: 中等",
+                    "strengthGood": "密钥强度: 好",
+                    "strengthExcellent": "密钥强度: 优秀",
+                    "notificationSuccess": "密钥复制成功!",
+                    "errorNoChars": "请至少选择一种字符类型",
+                    "errorLength": "长度必须在4到512个字符之间",
+                    "errorNoKey": "没有密钥可复制",
+                    "errorCopyFail": "复制密钥失败",
+                    "languageSelect": "选择语言",
+                    "guideTitle": "数字安全指南",
+                    "section1Title": "1. 什么是密钥，为什么重要？",
+                    "section1Point1": "密钥或密码是您在数字空间的第一道防线。",
+                    "section1Point2": "密钥越长越复杂，黑客就越难破解。",
+                    "section2Title": "2. 强密钥的特征",
+                    "section2Point1": "长度至少24-32个字符（最好更长）。",
+                    "section2Point2": "包含大写和小写字母、数字和符号。",
+                    "section2Point3": "不依赖熟悉的单词或个人数据（如您的姓名或出生日期）。",
+                    "section3Title": "3. 应避免的常见错误",
+                    "section3Point1": "为多个账户使用相同的密钥。",
+                    "section3Point2": "在设备上将密钥保存在未加密的文本文件中。",
+                    "section3Point3": "通过不安全的消息与其他分享密钥。",
+                    "section4Title": "4. 存储密钥的最佳实践",
+                    "section4Point1": "使用加密的本地密码管理软件（如KeePass或本地Bitwarden）。",
+                    "section4Point2": "在可能的地方启用双因素认证（2FA）。",
+                    "section4Point3": "定期更新密钥。",
+                    "section5Title": "5. 数字安全对普通用户的重要性",
+                    "section5Point1": "保护银行账户和电子邮件免受黑客攻击。",
+                    "section5Point2": "防止数字身份盗窃。",
+                    "section5Point3": "在社交网络上维护隐私。",
+                    "backBtn": "返回密钥生成器"
+                },
+                ru: {
+                    "pageTitle": "Руководство по Цифровой Безопасности - Генератор Случайных Ключей",
+                    "title": "Генератор Случайных Ключей",
+                    "lengthLabel": "Длина Ключа:",
+                    "uppercaseLabel": "Прописные буквы (A-Z)",
+                    "lowercaseLabel": "Строчные буквы (a-z)",
+                    "numbersLabel": "Цифры (0-9)",
+                    "symbolsLabel": "Специальные символы (!@#$%^&*_+-=`:.?)",
+                    "autoCopyLabel": "Автоматическое копирование ключа после генерации",
+                    "generateBtn": "Сгенерировать Ключ",
+                    "copyBtn": "Копировать",
+                    "keyPlaceholder": "Ключ появится здесь",
+                    "strengthInfo": "Прочность Ключа: Неизвестна",
+                    "strengthWeak": "Прочность Ключа: Слабая",
+                    "strengthMedium": "Прочность Ключа: Средняя",
+                    "strengthGood": "Прочность Ключа: Хорошая",
+                    "strengthExcellent": "Прочность Ключа: Отличная",
+                    "notificationSuccess": "Ключ скопирован успешно!",
+                    "errorNoChars": "Пожалуйста, выберите хотя бы один тип символов",
+                    "errorLength": "Длина должна быть от 4 до 512 символов",
+                    "errorNoKey": "Нет ключа для копирования",
+                    "errorCopyFail": "Не удалось скопировать ключ",
+                    "languageSelect": "Выбрать Язык",
+                    "guideTitle": "Руководство по Цифровой Безопасности",
+                    "section1Title": "1. Что такое Ключ и Почему Он Важный?",
+                    "section1Point1": "Ключ или пароль - ваша первая линия обороны в цифровом пространстве.",
+                    "section1Point2": "Чем длиннее и сложнее ключ, тем труднее хакерам его взломать.",
+                    "section2Title": "2. Характеристики Сильного Ключа",
+                    "section2Point1": "Длина не менее 24-32 символов (желательно длиннее).",
+                    "section2Point2": "Содержит заглавные и строчные буквы, цифры и символы.",
+                    "section2Point3": "Не зависит от знакомых слов или личных данных (например, вашего имени или даты рождения).",
+                    "section3Title": "3. Распространенные Ошибки, Которых Следует Избегать",
+                    "section3Point1": "Использование одного и того же ключа для более чем одного аккаунта.",
+                    "section3Point2": "Сохранение ключа в незашифрованном текстовом файле на устройстве.",
+                    "section3Point3": "Обмен ключом с другими через небезопасные сообщения.",
+                    "section4Title": "4. Лучшие Практики для Хранения Ключей",
+                    "section4Point1": "Используйте зашифрованное локальное программное обеспечение для управления паролями (например, KeePass или локальный Bitwarden).",
+                    "section4Point2": "Включите двухфакторную аутентификацию (2FA) где возможно.",
+                    "section4Point3": "Регулярно обновляйте ключи.",
+                    "section5Title": "5. Важность Цифровой Безопасности для Обычного Пользователя",
+                    "section5Point1": "Защитите банковские счета и email от взлома.",
+                    "section5Point2": "Предотвратите кражу цифровой идентичности.",
+                    "section5Point3": "Сохраните конфиденциальность в социальных сетях.",
+                    "backBtn": "Вернуться к Генератору Ключей"
+                }
+            };
+
+            // تحميل الترجمات (يحاول أولاً تحميل ملف خارجي ثم ينسحب إلى المضمّن)
+            async function loadTranslations(lang) {
+                console.log(`Loading translations for ${lang}`);
+                currentLang = lang;
+                localStorage.setItem('selectedLang', lang); // حفظ اللغة
+
+                // إذا كانت الصفحة مفتوحة محلياً عبر file:// فإن المتصفحات الحديثة تمنع fetch من ملفات محلية
+                // لذلك نتجنّب محاولة جلب الملفات الخارجية ونستخدم الترجمات المضمّنة مباشرة
+                if (location.protocol === 'file:' || location.origin === 'null') {
+                    console.warn('Running from file:// — skipping external fetch (browser blocks local file requests). Using embedded translations.');
+                    translations = translationFiles[lang] || translationFiles['ar'];
+                    // دمج مع خيارات اللغة المضمنة
+                    const options = langOptions[lang] || langOptions['ar'];
+                    translations = { ...translations, ...options };
+                    applyTranslations();
+                    updateDirection();
+                    return;
+                }
+
+                try {
+                    const [tResp, oResp] = await Promise.all([
+                        fetch(`./lang/lang_${lang}.json`),
+                        fetch(`./lang_options.json`)
+                    ]);
+
+                    if (tResp.ok) {
+                        const external = await tResp.json();
+                        translations = external;
+                    } else {
+                        console.warn(`Translation file not found for ${lang}, status:`, tResp.status);
+                        translations = translationFiles[lang] || translationFiles['ar'];
+                    }
+
+                    if (oResp.ok) {
+                        const opts = await oResp.json();
+                        const options = opts[lang] || opts['ar'];
+                        translations = { ...translations, ...options };
+                    } else {
+                        console.warn('lang_options.json not loaded, using defaults');
+                    }
+                } catch (err) {
+                    console.warn('Failed to load external translation files, falling back to embedded translations.', err);
+                    translations = translationFiles[lang] || translationFiles['ar'];
+                }
+
+                console.log('Loaded translations:', translations);
+                applyTranslations();
+                updateDirection();
+            }
+
+            // تطبيق الترجمات
+            function applyTranslations() {
+                document.querySelectorAll("[data-i18n]").forEach(el => {
+                    const key = el.getAttribute("data-i18n");
+                    const text = translations[key] || key;
+                    const span = el.querySelector("span");
+                    if (span) {
+                        span.textContent = text;
+                    } else if (el.tagName === 'TITLE') {
+                        el.textContent = text;
+                    } else if (el.tagName === 'H1' || el.tagName === 'H2') {
+                        const icon = el.querySelector('.icon') ? el.querySelector('.icon').outerHTML : '';
+                        el.innerHTML = `${icon} ${text}`;
+                    } else if (el.tagName === 'OPTION') {
+                        el.textContent = text;
+                    } else if (el.tagName === 'LI') {
+                        const icon = el.querySelector('i') ? el.querySelector('i').outerHTML : '';
+                        el.innerHTML = `${text} ${icon}`;
+                    } else if (el.tagName === 'A') {
+                        const icon = el.querySelector('i') ? el.querySelector('i').outerHTML : '';
+                        el.innerHTML = `${icon} ${text}`;
+                    } else {
+                        el.textContent = text;
+                    }
+                });
+            }
+
+            // تحديث اتجاه النص
+            function updateDirection() {
+                const html = document.documentElement;
+                const btn = document.querySelector('.security-guide-btn');
+                if (currentLang === 'ar' || currentLang === 'fa') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', currentLang);
+                    btn.style.left = '20px';
+                    btn.style.right = 'auto';
+                } else {
+                    html.setAttribute('dir', 'ltr');
+                    html.setAttribute('lang', currentLang);
+                    btn.style.right = '20px';
+                    btn.style.left = 'auto';
+                }
+            }
+
+            // إضافة معالجات الأحداث
+            document.getElementById('language-select').addEventListener('change', (e) => {
+                loadTranslations(e.target.value);
+            });
+
+            // تحميل الترجمات الأولية
+            loadTranslations(currentLang);
+
+            // تعيين اللغة المختارة في select
+            document.getElementById('language-select').value = currentLang;
+
+            // إضافة event listener للقائمة
+            document.getElementById('language-select').addEventListener('change', function() {
+                const selectedLang = this.value;
+                loadTranslations(selectedLang);
+            });
+        });
+    </script>
+</body>
+</html>
